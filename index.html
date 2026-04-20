@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Amruta Mart</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green: #1a7a4a;
+    --lime: #5cb85c;
+    --fresh: #e8f5e9;
+    --orange: #f26522;
+    --yellow: #ffc107;
+    --dark: #1b2e1e;
+    --text: #2d3a2e;
+    --gray: #f4f6f4;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--white); color: var(--text); font-family: 'Nunito', sans-serif; }
+
+  /* TOP BAR */
+  .topbar { background: var(--green); color: white; padding: 0.4rem 3rem; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; }
+  .topbar a { color: rgba(255,255,255,0.85); text-decoration: none; margin-left: 1.5rem; }
+
+  /* NAV */
+  nav {
+    background: white; padding: 1rem 3rem;
+    display: flex; align-items: center; gap: 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--green); white-space: nowrap; }
+  .logo span { color: var(--orange); font-style: italic; }
+  .search-bar {
+    flex: 1; display: flex; background: var(--gray); border-radius: 50px; overflow: hidden;
+  }
+  .search-bar input { flex: 1; border: none; background: transparent; padding: 0.7rem 1.2rem; font-family: 'Nunito', sans-serif; font-size: 0.9rem; outline: none; }
+  .search-bar select { border: none; background: transparent; padding: 0.7rem 0.8rem; font-family: 'Nunito', sans-serif; font-size: 0.8rem; color: var(--green); font-weight: 700; cursor: pointer; outline: none; }
+  .search-btn { background: var(--orange); border: none; padding: 0.7rem 1.5rem; color: white; font-size: 1rem; cursor: pointer; }
+  .nav-actions { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-btn { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-weight: 700; color: var(--text); cursor: pointer; gap: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .nav-btn span:first-child { font-size: 1.3rem; }
+  .cart-nav { background: var(--green); color: white; padding: 0.6rem 1.4rem; border-radius: 50px; font-weight: 800; font-size: 0.85rem; display: flex; gap: 0.5rem; align-items: center; cursor: pointer; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a7a4a 0%, #0d5c36 40%, #1b2e1e 100%);
+    padding: 3rem;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;
+    min-height: 320px;
+  }
+  .hero-main {
+    grid-column: 1 / 3;
+    display: flex; flex-direction: column; justify-content: center;
+    color: white;
+    padding: 2rem;
+    background: rgba(255,255,255,0.06);
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative; overflow: hidden;
+  }
+  .hero-main::before {
+    content: '🌿';
+    position: absolute; right: -1rem; top: -1rem; font-size: 8rem; opacity: 0.15;
+  }
+  .hero-badge { background: var(--orange); color: white; font-size: 0.72rem; font-weight: 800; padding: 0.3rem 0.9rem; border-radius: 50px; display: inline-block; margin-bottom: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .hero-main h1 { font-size: 2.8rem; font-weight: 900; line-height: 1.15; margin-bottom: 0.8rem; }
+  .hero-main h1 span { color: var(--yellow); }
+  .hero-main p { font-size: 0.9rem; color: rgba(255,255,255,0.75); margin-bottom: 1.5rem; font-weight: 400; }
+  .hero-main .shop-btn { background: var(--orange); color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: transform 0.2s; display: inline-block; }
+  .hero-main .shop-btn:hover { transform: scale(1.05); }
+  .hero-side { display: flex; flex-direction: column; gap: 1rem; }
+  .hero-card {
+    flex: 1; border-radius: 1rem; padding: 1.2rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    cursor: pointer; transition: transform 0.2s;
+  }
+  .hero-card:hover { transform: scale(1.03); }
+  .hero-card:nth-child(1) { background: linear-gradient(135deg, #ff9800, #f26522); }
+  .hero-card:nth-child(2) { background: linear-gradient(135deg, #ffc107, #ff9800); }
+  .hero-card .card-icon { font-size: 2.5rem; }
+  .hero-card .card-text h3 { color: white; font-weight: 800; font-size: 1rem; }
+  .hero-card .card-text p { color: rgba(255,255,255,0.8); font-size: 0.78rem; }
+
+  /* CATEGORIES */
+  .cats-strip { background: var(--gray); padding: 1.5rem 3rem; overflow-x: auto; }
+  .cats-inner { display: flex; gap: 1.2rem; min-width: max-content; }
+  .cat-pill {
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    background: white; padding: 0.8rem 1.2rem; border-radius: 0.8rem;
+    cursor: pointer; transition: all 0.2s; min-width: 80px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 2px solid transparent;
+  }
+  .cat-pill:hover, .cat-pill.active { border-color: var(--green); background: var(--fresh); }
+  .cat-pill .icon { font-size: 1.8rem; }
+  .cat-pill .label { font-size: 0.68rem; font-weight: 700; color: var(--text); text-align: center; }
+
+  /* DEALS */
+  .deals-section { padding: 2.5rem 3rem; }
+  .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .section-head h2 { font-size: 1.6rem; font-weight: 800; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
+  .section-head h2 .tag { background: var(--orange); color: white; font-size: 0.68rem; padding: 0.2rem 0.6rem; border-radius: 50px; }
+  .view-all { color: var(--green); font-weight: 700; font-size: 0.85rem; text-decoration: none; }
+
+  .products-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2rem; }
+  .prod-card {
+    background: white; border-radius: 1rem; overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+    border: 1px solid #eee;
+  }
+  .prod-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .prod-img {
+    height: 160px; display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; background: var(--fresh); position: relative;
+  }
+  .prod-disc { position: absolute; top: 0.6rem; left: 0.6rem; background: var(--orange); color: white; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 0.3rem; }
+  .prod-wish { position: absolute; top: 0.6rem; right: 0.6rem; font-size: 1.2rem; cursor: pointer; }
+  .prod-info { padding: 0.9rem; }
+  .prod-info .brand { font-size: 0.65rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; }
+  .prod-info .name { font-size: 0.85rem; font-weight: 700; margin: 0.2rem 0; color: var(--dark); }
+  .prod-info .weight { font-size: 0.72rem; color: #888; margin-bottom: 0.5rem; }
+  .prod-price { display: flex; justify-content: space-between; align-items: center; }
+  .price-main { font-size: 1rem; font-weight: 800; color: var(--dark); }
+  .price-old { font-size: 0.75rem; color: #bbb; text-decoration: line-through; margin-right: 0.3rem; }
+  .add-btn { background: var(--green); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; font-weight: 700; }
+  .add-btn:hover { background: var(--orange); }
+
+  /* OFFERS GRID */
+  .offers-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; padding: 0 3rem 2.5rem; }
+  .offer-card {
+    border-radius: 1rem; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; cursor: pointer; transition: transform 0.2s;
+  }
+  .offer-card:hover { transform: scale(1.02); }
+  .offer-card:nth-child(1) { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+  .offer-card:nth-child(2) { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+  .offer-card:nth-child(3) { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
+  .offer-icon { font-size: 3.5rem; }
+  .offer-text h3 { font-size: 1.1rem; font-weight: 800; color: var(--dark); margin-bottom: 0.3rem; }
+  .offer-text p { font-size: 0.78rem; color: #666; font-weight: 600; }
+  .offer-text .off { font-size: 1.5rem; font-weight: 900; color: var(--green); }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: white; padding: 3rem; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; }
+  .foot-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .foot-logo span { color: var(--orange); }
+  footer p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  footer h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--yellow); margin-bottom: 1rem; }
+  footer ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  footer a { color: rgba(255,255,255,0.55); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--lime); }
+  .foot-bottom { background: #111e13; text-align: center; padding: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>📍 Delivering to: Pune, Maharashtra</span>
+  <div><a href="#">Track Order</a><a href="#">Help Center</a><a href="#">Sell on Amruta</a></div>
+</div>
+
+<nav>
+  <div class="logo">Amruta <span>Mart</span></div>
+  <div class="search-bar">
+    <select><option>All</option><option>Grocery</option><option>Fruits</option><option>Dairy</option><option>Snacks</option></select>
+    <input type="text" placeholder="Search for products, brands and more..."/>
+    <button class="search-btn">🔍</button>
+  </div>
+  <div class="nav-actions">
+    <div class="nav-btn"><span>👤</span><span>Account</span></div>
+    <div class="nav-btn"><span>♡</span><span>Wishlist</span></div>
+    <div class="cart-nav">🛒 Cart · 0</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-main">
+    <div class="hero-badge">🔥 Mega Fresh Sale — Today Only!</div>
+    <h1>Fresh. Fast.<br/><span>Delivered!</span></h1>
+    <p>Get groceries, fruits, dairy & daily essentials delivered to your door in under 30 minutes.</p>
+    <button class="shop-btn">Shop Now →</button>
+  </div>
+  <div class="hero-side">
+    <div class="hero-card">
+      <div class="card-icon">🥦</div>
+      <div class="card-text">
+        <h3>Fresh Vegetables</h3>
+        <p>Up to 30% off today</p>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="card-icon">🛒</div>
+      <div class="card-text">
+        <h3>Daily Essentials</h3>
+        <p>Flat ₹100 off on ₹499+</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cats-strip">
+  <div class="cats-inner">
+    <div class="cat-pill active"><span class="icon">🛒</span><span class="label">All</span></div>
+    <div class="cat-pill"><span class="icon">🥦</span><span class="label">Vegetables</span></div>
+    <div class="cat-pill"><span class="icon">🍎</span><span class="label">Fruits</span></div>
+    <div class="cat-pill"><span class="icon">🥛</span><span class="label">Dairy</span></div>
+    <div class="cat-pill"><span class="icon">🍞</span><span class="label">Bakery</span></div>
+    <div class="cat-pill"><span class="icon">🧴</span><span class="label">Personal Care</span></div>
+    <div class="cat-pill"><span class="icon">🧹</span><span class="label">Household</span></div>
+    <div class="cat-pill"><span class="icon">🍫</span><span class="label">Snacks</span></div>
+    <div class="cat-pill"><span class="icon">🥤</span><span class="label">Beverages</span></div>
+    <div class="cat-pill"><span class="icon">🌾</span><span class="label">Grains</span></div>
+    <div class="cat-pill"><span class="icon">🧂</span><span class="label">Spices</span></div>
+    <div class="cat-pill"><span class="icon">❄️</span><span class="label">Frozen</span></div>
+  </div>
+</div>
+
+<section class="deals-section">
+  <div class="section-head">
+    <h2>🔥 Best Deals <span class="tag">LIMITED TIME</span></h2>
+    <a href="#" class="view-all">View All →</a>
+  </div>
+  <div class="products-row">
+    <div class="prod-card">
+      <div class="prod-img">🥦<div class="prod-disc">30% OFF</div><div class="prod-wish">♡</div></div>
+      <div class="prod-info">
+        <div class="brand">Amruta Fresh</div>
+        <div class="name">Broccoli</div>
+        <div class="weight">500g</div>
+        <div class="prod-price">
+          <div><span class="price-old">₹60</span><span class="price-main">₹42</span></div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img">🥛<div class="prod-disc">10% OFF</div><div class="prod-wish">♡</div></div>
+      <div class="prod-info">
+        <div class="brand">Amul</div>
+        <div class="name">Full Cream Milk</div>
+        <div class="weight">1 Litre</div>
+        <div class="prod-price">
+          <div><span class="price-old">₹68</span><span class="price-main">₹61</span></div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img">🍎<div class="prod-disc">20% OFF</div><div class="prod-wish">♡</div></div>
+      <div class="prod-info">
+        <div class="brand">Farm Fresh</div>
+        <div class="name">Kashmiri Apples</div>
+        <div class="weight">1 Kg</div>
+        <div class="prod-price">
+          <div><span class="price-old">₹180</span><span class="price-main">₹144</span></div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img">🍞<div class="prod-wish">♡</div></div>
+      <div class="prod-info">
+        <div class="brand">Britannia</div>
+        <div class="name">Whole Wheat Bread</div>
+        <div class="weight">400g</div>
+        <div class="prod-price">
+          <div><span class="price-main">₹45</span></div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img">🧴<div class="prod-disc">15% OFF</div><div class="prod-wish">♡</div></div>
+      <div class="prod-info">
+        <div class="brand">Dove</div>
+        <div class="name">Moisturising Body Wash</div>
+        <div class="weight">200ml</div>
+        <div class="prod-price">
+          <div><span class="price-old">₹220</span><span class="price-main">₹187</span></div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="offers-grid">
+  <div class="offer-card">
+    <div class="offer-icon">🚚</div>
+    <div class="offer-text">
+      <div class="off">Free</div>
+      <h3>Delivery</h3>
+      <p>On orders above ₹499</p>
+    </div>
+  </div>
+  <div class="offer-card">
+    <div class="offer-icon">⚡</div>
+    <div class="offer-text">
+      <div class="off">30 min</div>
+      <h3>Express Delivery</h3>
+      <p>Lightning-fast to your door</p>
+    </div>
+  </div>
+  <div class="offer-card">
+    <div class="offer-icon">💳</div>
+    <div class="offer-text">
+      <div class="off">5% back</div>
+      <h3>Wallet Cashback</h3>
+      <p>On every order you place</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="foot-logo">Amruta <span>Mart</span></div>
+    <p>Your neighbourhood supermart, now online. Freshness guaranteed. Delivered with love from our farm partners straight to your kitchen.</p>
+  </div>
+  <div>
+    <h4>Shop</h4>
+    <ul>
+      <li><a href="#">Vegetables & Fruits</a></li>
+      <li><a href="#">Dairy & Eggs</a></li>
+      <li><a href="#">Snacks</a></li>
+      <li><a href="#">Beverages</a></li>
+      <li><a href="#">Household</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Help</h4>
+    <ul>
+      <li><a href="#">Track Order</a></li>
+      <li><a href="#">FAQs</a></li>
+      <li><a href="#">Return Policy</a></li>
+      <li><a href="#">Contact Support</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Partner with Us</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="foot-bottom">© 2026 Amruta Mart · All Rights Reserved · Made with 💚 in India</div>
+
+</body>
+</html>
+
